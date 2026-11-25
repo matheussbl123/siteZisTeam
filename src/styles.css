@@ -55,7 +55,10 @@ button { font: inherit; }
   transition: background-color .25s ease;
 }
 .header--scrolled, .header--open { background: rgba(0, 0, 0, .92); }
+.header__logo { transition: opacity .25s ease; }
 .header__logo img { width: 118px; }
+/* No topo, a foto original já traz a logo da arte; a do cabeçalho aparece ao rolar. */
+.header:not(.header--scrolled):not(.header--open) .header__logo { opacity: 0; pointer-events: none; }
 .header__toggle {
   display: inline-flex; flex-direction: column; justify-content: center; gap: 6px;
   width: 44px; height: 44px; padding: 10px; background: none; border: 1px solid var(--yellow); cursor: pointer;
@@ -77,7 +80,7 @@ button { font: inherit; }
 
 /* Hero */
 .hero { position: relative; height: 100svh; min-height: 480px; overflow: hidden; background: #111; }
-.hero__slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 13% 50%; opacity: 0; transition: opacity .8s ease; }
+.hero__slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 8% 50%; opacity: 0; transition: opacity .8s ease; }
 .hero__slide--active { opacity: 1; }
 .hero__arrow {
   position: absolute; top: 50%; translate: 0 -50%; z-index: 2;
@@ -218,8 +221,9 @@ button { font: inherit; }
   .header--open .nav { position: absolute; inset: auto; background: none; padding: 0; }
 
   .section { min-height: calc(1080 * var(--u)); padding: calc(232 * var(--u)) var(--gutter) calc(80 * var(--u)); max-width: none; }
-  .hero { height: max(calc(1080 * var(--u)), 100svh); }
-  .hero__slide { object-position: 50% 50%; }
+  /* Proporção exata da arte (16:9): a logo da foto fica sob a logo do cabeçalho, pixel a pixel. */
+  .hero { height: calc(1080 * var(--u)); min-height: 0; }
+  .hero__slide { object-position: 0 0; }
   .hero__arrow { width: calc(60 * var(--u)); height: calc(80 * var(--u)); }
   .hero__arrow svg { width: calc(26 * var(--u)); height: calc(40 * var(--u)); }
   .hero__arrow--prev { left: calc(62 * var(--u)); }

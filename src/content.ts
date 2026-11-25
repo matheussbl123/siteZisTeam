@@ -18,7 +18,9 @@ const a = (file: string) => `/assets/${file}`;
 
 export const heroSlides = [
   { src: a('hero-1.webp'), alt: 'Carro da ZisTeam contornando a zebra de uma curva, visto de cima' },
-  // Adicione mais imagens aqui para ativar as setas do carrossel.
+  // Adicione mais imagens aqui para ativar as setas do carrossel. Use artes 1920×1080 com a logo
+  // aplicada no mesmo lugar (x 154, y 77, 234×95), como na original: no celular a logo do cabeçalho
+  // só aparece ao rolar a página.
 ];
 
 export const social = {
