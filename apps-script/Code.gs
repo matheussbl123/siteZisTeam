@@ -19,7 +19,7 @@
  */
 
 const PLANILHA_ID = '1aJ55F0I0E22gCITfngjH4_pp9SICkTM1v5-MRB7_A6A'; // "Cadastros ZisTeam" (trecho da URL entre /d/ e /edit)
-const AVISAR_PARA = 'matheussbl123@gmail.com'; // separe vários por vírgula
+const AVISAR_PARA = 'zisteambr@gmail.com'; // separe vários por vírgula
 const NOME_DA_ABA = 'Página1';                 // aba onde os contatos são gravados
 const CABECALHO = ['Data/Hora', 'Nome', 'Contato', 'Assunto', 'Mensagem'];
 

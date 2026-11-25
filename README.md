@@ -63,7 +63,9 @@ Para ativar as setas do carrossel do topo, adicione mais imagens em `heroSlides`
 
 ## Deploy (Vercel)
 
-Importe a pasta como projeto Vite, cadastre as variáveis acima (Production e Preview) e publique.
+Publicado em **https://zisteambr.vercel.app** (projeto `site-zisteam`, time ZisTeam na Vercel, ligado a este
+repositório: cada push na `main` publica sozinho). As variáveis `APPS_SCRIPT_URL` e `APPS_SCRIPT_SECRET`
+estão cadastradas no projeto. Os avisos do formulário vão para `zisteambr@gmail.com` (constante `AVISAR_PARA` no script).
 `vercel.json` já define a saída `dist`; a função fica em `api/contact.ts`.
 
 ## Fidelidade ao PDF
