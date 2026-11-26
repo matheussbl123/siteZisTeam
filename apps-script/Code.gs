@@ -21,8 +21,13 @@
  * (assim a URL continua a mesma).
  */
 
+// ---- Ambiente -----------------------------------------------------------------------------
+// Produção:     PLANILHA_ID da "Cadastros ZisTeam" e AVISAR_PARA = zisteambr@gmail.com.
+// Homologação:  projeto de script SEPARADO, com PLANILHA_ID = '' (a função "configurar" cria a planilha
+//               "Cadastros ZisTeam (homologação)") e AVISAR_PARA = e-mail de quem testa.
 const PLANILHA_ID = '1aJ55F0I0E22gCITfngjH4_pp9SICkTM1v5-MRB7_A6A'; // "Cadastros ZisTeam" (trecho da URL entre /d/ e /edit)
 const AVISAR_PARA = 'zisteambr@gmail.com'; // recebe os contatos e é o e-mail da conta de admin
+const NOME_PLANILHA_NOVA = 'Cadastros ZisTeam (homologação)';
 const NOME_DA_ABA = 'Página1';                 // aba onde os contatos são gravados
 const CABECALHO = ['Data/Hora', 'Nome', 'Contato', 'Assunto', 'Mensagem'];
 
@@ -108,28 +113,40 @@ function configurar() {
     segredo = (Utilities.getUuid() + Utilities.getUuid()).replace(/-/g, '');
     props.setProperty('SEGREDO', segredo);
   }
+  if (!PLANILHA_ID && !props.getProperty('PLANILHA_ID')) {
+    const nova = SpreadsheetApp.create(NOME_PLANILHA_NOVA);
+    props.setProperty('PLANILHA_ID', nova.getId());
+    console.log('Planilha criada: ' + nova.getUrl());
+  }
   const aba = obterAba();
   if (aba.getLastRow() === 0) aba.appendRow(CABECALHO);
   // Só o cabeçalho (sem contatos ainda)? Garante as 5 colunas atuais, incluindo "Contato".
   else if (aba.getLastRow() === 1) aba.getRange(1, 1, 1, aba.getLastColumn()).clearContent().offset(0, 0, 1, CABECALHO.length).setValues([CABECALHO]);
   abaChaveValor(ABA_SITE);
   abaChaveValor(ABA_ADMIN);
-  console.log('Planilha OK: ' + SpreadsheetApp.openById(PLANILHA_ID).getName() + ' / aba ' + aba.getName());
+  console.log('Planilha OK: ' + planilha().getName() + ' / aba ' + aba.getName() + ' / ' + planilha().getUrl());
+  console.log('E-mails do site vão para: ' + AVISAR_PARA);
   console.log('E-mails restantes hoje: ' + MailApp.getRemainingDailyQuota());
   console.log('APPS_SCRIPT_SECRET=' + segredo);
 }
 
+function planilha() {
+  const id = PLANILHA_ID || PropertiesService.getScriptProperties().getProperty('PLANILHA_ID');
+  if (!id) throw new Error('Planilha não definida: execute a função "configurar".');
+  return SpreadsheetApp.openById(id);
+}
+
 function obterAba() {
-  const planilha = SpreadsheetApp.openById(PLANILHA_ID);
-  return planilha.getSheetByName(NOME_DA_ABA) || planilha.getSheets()[0];
+  const p = planilha();
+  return p.getSheetByName(NOME_DA_ABA) || p.getSheets()[0];
 }
 
 /** Abas "Site" e "Admin": duas colunas (campo | valor), tudo como texto puro. */
 function abaChaveValor(nome) {
-  const planilha = SpreadsheetApp.openById(PLANILHA_ID);
-  let aba = planilha.getSheetByName(nome);
+  const p = planilha();
+  let aba = p.getSheetByName(nome);
   if (!aba) {
-    aba = planilha.insertSheet(nome);
+    aba = p.insertSheet(nome);
     aba.getRange('A:C').setNumberFormat('@');
     aba.getRange(1, 1, 1, 3).setValues([['Campo', 'Valor', 'Atualizado em']]).setFontWeight('bold');
     aba.setFrozenRows(1);

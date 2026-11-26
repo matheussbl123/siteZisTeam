@@ -82,6 +82,17 @@ repositório: cada push na `main` publica sozinho). As variáveis `APPS_SCRIPT_U
 estão cadastradas no projeto. Os avisos do formulário vão para `zisteambr@gmail.com` (constante `AVISAR_PARA` no script).
 `vercel.json` já define a saída `dist`; a função fica em `api/contact.ts`.
 
+### Homologação (testes sem afetar o site oficial)
+
+- Branch **`homolog`**: cada push gera um deploy de *Preview* na Vercel (URL `site-zisteam-git-homolog-…vercel.app`,
+  protegida pelo login da Vercel). Nada disso muda `zisteambr.vercel.app` / `zisteam.com`.
+- Na Vercel, `APPS_SCRIPT_URL` e `APPS_SCRIPT_SECRET` existem em duas versões: **Production** (script/planilha oficiais)
+  e **Preview** (script de homologação, planilha "Cadastros ZisTeam (homologação)", e-mails para quem testa).
+- O site de homologação mostra uma faixa amarela "HOMOLOGAÇÃO" no rodapé; em `bun run dev` aparece "DESENVOLVIMENTO"
+  (o `.env` local aponta para o script de homologação).
+- O admin de homologação é independente: usuário `zisteam_admin`, senha própria, enviada ao e-mail de teste.
+- Para levar uma mudança testada ao ar: merge de `homolog` na `main`.
+
 ## Fidelidade ao PDF
 
 As imagens foram extraídas do próprio PDF (`docs/referencia/` tem as telas originais renderizadas).

@@ -63,5 +63,7 @@ function devApi(mode: string): Plugin {
 
 export default defineConfig(({ mode }) => ({
   plugins: [react(), devApi(mode)],
+  // "production" no site no ar; "preview" na homologação (branch homolog); "development" local.
+  define: { __AMBIENTE__: JSON.stringify(process.env.VERCEL_ENV ?? 'development') },
   test: { include: ['server/**/*.test.ts'] },
 }));
