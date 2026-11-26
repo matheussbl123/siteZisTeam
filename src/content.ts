@@ -75,12 +75,12 @@ export const about = {
 };
 
 export const racing = {
-  text: 'A ZisTeam Racing é a divisão da Zis dedicada ao automobilismo virtual e real, reunindo diferentes times sob uma mesma equipe, cada uma com sua identidade e área de atuação.',
+  text: 'A ZisTeam reúne pilotos com diferentes objetivos, experiências e estilos de participação no automobilismo virtual, organizados em projetos que compartilham a mesma identidade, paixão e espírito de equipe.',
   image: { src: a('racing-carro.webp'), alt: 'Carro 215 da ZisTeam, preto e amarelo, em vista lateral', w: 694, h: 234 },
   teams: [
-    { name: 'ZisTeam Racing', badge: a('badge-racing.webp'), text: 'A equipe principal da ZisTeam Racing reúne pilotos com maior dedicação e compromisso competitivo, representando a organização em campeonatos e buscando evolução constante e resultados expressivos.' },
-    { name: 'ZisTeam Club', badge: a('badge-club.webp'), text: 'A ZisTeam Club reúne pilotos da comunidade ZisTeam que compartilham a paixão pelo automobilismo e desejam fazer parte da organização, conciliando as competições com suas disponibilidades.' },
-    { name: 'ZisTeam Next', badge: a('badge-next.webp'), text: 'A ZisTeam Next é dedicada à formação e ao desenvolvimento de pilotos, promovendo o aprimoramento técnico e a experiência competitiva, além de incentivar novos talentos no automobilismo.' },
+    { name: 'ZisTeam Racing', badge: a('badge-racing.webp'), text: 'A divisão competitiva da ZisTeam, voltada a pilotos que buscam maior envolvimento com a equipe, evolução constante e participação ativa em campeonatos, treinamentos e eventos oficiais. Um projeto construído com dedicação, preparação e espírito de equipe.' },
+    { name: 'ZisTeam Club', badge: a('badge-club.webp'), text: 'Uma divisão para pilotos que desejam fazer parte da ZisTeam com mais liberdade e flexibilidade. Um espaço para competir, participar de eventos e compartilhar experiências, conciliando o automobilismo virtual com sua disponibilidade e seus objetivos pessoais.' },
+    { name: 'ZisTeam Next', badge: a('badge-next.webp'), text: 'A porta de entrada para novos pilotos que desejam fazer parte da ZisTeam. Um espaço de integração e acompanhamento, onde buscamos conhecer cada piloto, seu perfil e sua forma de participar, identificando o caminho mais adequado para sua continuidade na equipe.' },
   ],
 };
 
