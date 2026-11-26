@@ -1,4 +1,6 @@
-export type ContactEnv = Record<string, string | undefined>;
+import { callAppsScript, json, type ContactEnv, type ScriptEnv } from './appsScript.js';
+
+export type { ContactEnv };
 
 export type ContactData = {
   name: string;
@@ -125,29 +127,10 @@ export type AppsScriptResult = { ok: boolean; notification?: boolean; error?: st
  * que grava a linha na planilha e manda o e-mail pelo Gmail do dono.
  */
 export async function sendToAppsScript(
-  env: { url: string; secret: string },
+  env: ScriptEnv,
   payload: { row: string[]; email: ReturnType<typeof buildEmail> },
 ): Promise<AppsScriptResult> {
-  const response = await fetch(env.url, {
-    method: 'POST',
-    // text/plain evita preflight e é o formato que o Apps Script lê em e.postData.contents.
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({ secret: env.secret, ...payload }),
-    redirect: 'follow',
-    signal: AbortSignal.timeout(20000),
-  });
-  const text = await response.text();
-  if (!response.ok) throw new Error(`Apps Script retornou ${response.status}: ${text.slice(0, 300)}`);
-  try {
-    return JSON.parse(text) as AppsScriptResult;
-  } catch {
-    // Geralmente uma página HTML de login: a implantação não está como "Qualquer pessoa".
-    throw new Error(`Apps Script não respondeu JSON (confira "Quem pode acessar: Qualquer pessoa"): ${text.slice(0, 200)}`);
-  }
-}
-
-function json(body: unknown, status = 200): Response {
-  return new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' } });
+  return callAppsScript<AppsScriptResult>(env, { action: 'contato', ...payload });
 }
 
 export type ContactDeps = {

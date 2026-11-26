@@ -121,7 +121,7 @@ describe('sendToAppsScript', () => {
     const r = await sendToAppsScript({ url: 'https://x/exec', secret: 'abc' }, { row: ['a', 'b', 'c', 'd', 'e'], email });
     expect(r).toEqual({ ok: true, notification: true });
     expect(call!.url).toBe('https://x/exec');
-    expect(JSON.parse(String(call!.init.body))).toEqual({ secret: 'abc', row: ['a', 'b', 'c', 'd', 'e'], email: { subject: 's', html: '<p>h</p>', text: 't' } });
+    expect(JSON.parse(String(call!.init.body))).toEqual({ secret: 'abc', action: 'contato', row: ['a', 'b', 'c', 'd', 'e'], email: { subject: 's', html: '<p>h</p>', text: 't' } });
   });
 
   it('explica quando recebe HTML em vez de JSON (implantação sem acesso público)', async () => {

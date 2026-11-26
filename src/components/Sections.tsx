@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { about, gaming, media, racing, social, sports } from '../content';
 
 type Img = { src: string; w: number; h: number; name?: string; alt?: string };
@@ -63,16 +63,40 @@ export function About() {
   );
 }
 
+type PublicConfig = {
+  youtube: { videoId: string } | null;
+  instagram: { kind: 'image'; image: string; permalink: string; alt: string } | { kind: 'embed'; shortcode: string; permalink: string } | null;
+};
+
+/** Vídeo e post escolhidos na página /admin (com o conteúdo do layout como reserva). */
+function usePublicConfig(): PublicConfig | null {
+  const [cfg, setCfg] = useState<PublicConfig | null>(null);
+  useEffect(() => {
+    fetch('/api/site-config').then((r) => (r.ok ? r.json() : null)).then(setCfg).catch(() => setCfg(null));
+  }, []);
+  return cfg;
+}
+
 export function Media() {
   const [playing, setPlaying] = useState(false);
-  const videoId = media.youtubeVideoId;
+  const cfg = usePublicConfig();
+  const videoId = cfg?.youtube?.videoId || media.youtubeVideoId;
+  const ig = cfg?.instagram;
   return (
     <section id="midia" className="section media" aria-label="Acompanhe e assista">
       <div className="media__post">
         <h2 className="kicker kicker--lg"><Slashes />ACOMPANHE!</h2>
-        <a href={media.instagramPost.href} target="_blank" rel="noreferrer" className="media__post-link" aria-label="Ver post no Instagram da ZisTeam">
-          <img src={media.instagramPost.image} alt={media.instagramPost.alt} width={464} height={619} loading="lazy" decoding="async" />
-        </a>
+        {ig?.kind === 'embed' ? (
+          <div className="media__post-link media__post-embed">
+            <iframe src={`https://www.instagram.com/p/${ig.shortcode}/embed`} title="Post da ZisTeam no Instagram" loading="lazy" scrolling="no" />
+          </div>
+        ) : (
+          <a href={ig?.permalink ?? media.instagramPost.href} target="_blank" rel="noreferrer" className="media__post-link" aria-label="Ver post no Instagram da ZisTeam">
+            {ig?.kind === 'image'
+              ? <img className="media__post-photo" src={ig.image} alt={ig.alt} width={464} height={619} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+              : <img src={media.instagramPost.image} alt={media.instagramPost.alt} width={464} height={619} loading="lazy" decoding="async" />}
+          </a>
+        )}
       </div>
       <div className="media__video">
         <h2 className="kicker kicker--lg"><Slashes />ASSISTA!</h2>
