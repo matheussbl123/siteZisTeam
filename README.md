@@ -56,6 +56,20 @@ Ao mudar o código do script depois: **Implantar → Gerenciar implantações �
 4. O script envia o aviso pelo seu Gmail (cota de 100 e-mails/dia em conta pessoal). Se o contato informou e-mail, "Responder" vai direto a ele; se informou telefone, vem um link do WhatsApp. Se só o e-mail falhar, o contato já está salvo e o visitante vê sucesso (202).
 5. Um campo invisível (honeypot) descarta envios de robôs.
 
+## Admin (/admin)
+
+`https://zisteambr.vercel.app/admin` — usuário **zisteam_admin**.
+
+- **Primeiro acesso / esqueci a senha:** gera uma senha temporária (vale 60 min) e envia para o e-mail que recebe os
+  contatos (`AVISAR_PARA` no script, hoje zisteambr@gmail.com). Ao entrar com ela, o admin exige criar uma senha nova
+  (mín. 10 caracteres, letras e números). Pedir uma temporária não derruba a senha atual; reenvio só após 5 min.
+- **Trocar senha:** dentro do admin; encerra as outras sessões e avisa por e-mail.
+- **Segurança:** a senha fica só em hash (scrypt) na aba "Admin" da planilha; sessão em cookie assinado (8 h);
+  5 senhas erradas bloqueiam o login por 15 min. Não edite a aba "Admin" à mão.
+- **Configurações** (gravadas na aba "Site"): vídeo do YouTube (último do canal pelo RSS, fixo ou nenhum) e post do
+  Instagram (automático pelo feed JSON do Behold, post fixo ou a imagem padrão). O site lê em `/api/site-config`,
+  com cache de 5 minutos.
+
 ## Editar conteúdo
 
 Textos, links das redes, ID do vídeo do YouTube e imagens ficam em [`src/content.ts`](src/content.ts).
